@@ -1,0 +1,23 @@
+int
+repeat 
+{}
+()
+if
+else
+
+break
+
+"esto es una cade de una linea"
+
+"Esto 
+es una 
+cadena ()!!break
+en varias 
+lineas"
+
+#comentario de linea
+#* Comentario
+multi
+linea*#
+
+!!!!

@@ -1,0 +1,73 @@
+/*-------------Codigo usuario----------------*/
+//import y paquetes
+package Analizadores;
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+//Codigo parser,variables,metodos
+parser code
+{:
+    public String resultado="";
+    public static LinkedList<TError> TablaESyn = new LinkedList<TError>();
+    
+
+    //Metodo al que se llama automaticamente ante algun error sintactico
+
+    public void syntax_error(Symbol s)
+    {
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        System.out.println("Error sintactico recuperado!!!");
+        System.out.println("\t\tLexema: " + lexema);
+        System.out.println("\t\tFila: " + fila + "\tColumna: " + columna);
+
+        TError datosESyn = new Error(lexema,fila,columna,"Error sintactico", "Caracter no esperado");
+        TablaESyn.add(datosESyn);
+    }
+
+    //Metodo al que se llama automaticamente en el momento que ya no es posible una recuperacion de errores
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exeption 
+    {
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        System.out.println("Error sintactico, (Panic mode)!!!");
+        System.out.println("\t\tLexema: " + lexema);
+        System.out.println("\t\tFila: " + fila + "\tColumna: " + columna);
+
+        TError datosESyn = new Error(lexema,fila,columna,"Error sintactico", "Caracter no esperado");
+        TablaESyn.add(datosESyn);
+    }
+:}
+
+//Codigo para las acciones gramaticas
+action code
+{:
+:}
+
+/*-------------Declaraciones----------------*/
+
+//Declaracion de Terminales
+terminal FIN, END, USING, IF, ELSE, REPEAT, WHILE, DO, SWITCH, CASE;
+terminal BREAK, MOTORS, SENSORS, INT, REAL, BOOLEAN, STRING;
+terminal TRUE, FALSE, AND, OR, NOT, SUMA, DIV, MUL, RESTA, MAYOR;
+terminal MENOR, MAYOR_IG, MENOR_IG, IGUAL, NUM_ENTERO, NUM_REAL;
+terminal PARE_A, PARE_C, LLAV_A, LLAV_C, CORC_A, CORC_C;
+
+terminal String NUM;
+
+//Declaracion de No Terminales
+non terminal String INICIO,E;
+
+//----> precedencia de menor a mayor
+
+start with INICIO;
+
+/*-------------Reglas semanticas----------------*/
+INICIO::=E:a {: resultado = a; :};
+
+E::= CORC_C ;
